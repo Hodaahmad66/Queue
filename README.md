@@ -1,37 +1,146 @@
-# Circular Queue Implementation in C
+Circular Queue in C
 
-This program implements a circular queue (ring buffer) in C and demonstrates its usage by enqueuing characters from a modified user input string and then dequeuing them to display the result.
+Description
 
-## Features
+This project demonstrates the implementation of a Circular Queue using an array in C.
 
-- Fixed-size circular queue with capacity of 20 characters
-- Standard queue operations: `enqueue`, `dequeue`, `isEmpty`, `isFull`
-- Handles overflow and underflow conditions with error messages
-- Wraps around automatically when reaching the end of the buffer
+The program:
 
-## Queue Operations
+- Takes a user's name as input
+- Appends "CE-ESY"
+- Stores each character in a circular queue
+- Prints the result after dequeue operations
 
-| Function | Description |
-|----------|-------------|
-| `initQueue()` | Initializes the queue with default values |
-| `isEmpty()` | Checks if the queue has no elements |
-| `isFull()` | Checks if the queue has reached maximum capacity |
-| `enqueue()` | Adds a character to the rear of the queue |
-| `dequeue()` | Removes and returns a character from the front |
+---
 
-## How It Works
+Concept: What is a Circular Queue?
 
-1. The user is prompted to enter their name
-2. The string `"CE-ESY"` is appended to the entered name
-3. Each character from the resulting string is added to the circular queue
-4. All characters are dequeued and printed in sequence
+A Circular Queue is a linear data structure that connects the end back to the beginning.
 
-## Requirements
+Instead of wasting space like a normal queue, it reuses empty positions.
 
-- C compiler (GCC, Clang, or MSVC)
-- Standard C libraries: `stdio.h`, `string.h`
+---
 
-## Compilation
+Queue Visualization
 
-```bash
-gcc circular_queue.c -o circular_queue
+Step Example (Input: Huda)
+
+After adding "CE-ESY" → "HudaCE-ESY"
+
+Index:   0   1   2   3   4   5   6   7   8   9   10
+        -------------------------------------------
+Data:   | H | u | d | a | C | E | - | E | S | Y |
+        -------------------------------------------
+           ↑                          ↑
+         read                       write
+
+---
+
+Circular Behavior
+
+When the queue reaches the end:
+
+(write_index + 1) % CAPACITY
+
+Example:
+
+Index:   18  19   0   1   2
+        ---------------------
+Data:   | X | Y | A | B | C |
+        ---------------------
+               ↑
+             write (wrapped around)
+
+---
+
+Operations
+
+Enqueue (Insert)
+
+- Adds element at "write_index"
+- Moves forward circularly
+
+➖ Dequeue (Remove)
+
+- Removes element from "read_index"
+- Moves forward circularly
+
+---
+
+Data Structure
+
+typedef struct {
+    char data[CAPACITY];
+    int write_index;
+    int read_index;
+    int current_size;
+} CircularQueue;
+
+---
+
+How to Run
+
+Compile:
+
+gcc main.c -o queue
+
+Run:
+
+./queue
+
+---
+
+Example
+
+Input:
+
+Huda
+
+Output:
+
+HudaCE-ESY
+
+---
+
+Notes
+
+- Max capacity = 20
+- Overflow if full
+- Underflow if empty
+
+---
+
+UML Diagram (Simplified)
+
++----------------------+
+|    CircularQueue     |
++----------------------+
+| data[20]             |
+| write_index          |
+| read_index           |
+| current_size         |
++----------------------+
+| setupQueue()         |
+| addToQueue()         |
+| removeFromQueue()    |
+| queueIsEmpty()       |
+| queueIsFull()        |
++----------------------+
+
+---
+
+Key Idea
+
+The magic line:
+
+(write_index + 1) % CAPACITY
+
+This makes the queue circular instead of linear.
+
+---
+
+Author
+
+Huda
+
+---
